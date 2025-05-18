@@ -1,16 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter , Routes, Route } from 'react-router-dom';
 import App from './App';
 import ViewPage from './ViewPage'; // Create this file
 import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <BrowserRouter>
+  <HashRouter >
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/view/:rowIndex" element={<ViewPage />} />
     </Routes>
-  </BrowserRouter>
+  </HashRouter >
 );
