@@ -72,7 +72,7 @@ function ViewPage() {
   );
 
   return (
-    <div className="container-fluid py-4">
+    <div className=" container-fluid py-4" style={{backgroundColor: "#f8f9fa"}} >
       <button className="btn btn-secondary mb-3" onClick={() => navigate('/')}>← Back</button>
       <div className="row">
         
@@ -125,9 +125,9 @@ function ViewPage() {
           {renderDetail('Preferred Braces', 'Brace Types')}
         </div>
 
-        <div className="col-md-3 mx-4">
+        <div className="col-md-3 mx-4" style={{backgroundColor: "white"}}>
           <div className="row">
-            <div className="bg-light p-3 rounded shadow-sm border">
+            <div className=" p-3 rounded shadow-sm border">
               <h5 className="mb-2 border-bottom" style={{ height: '35px' }}>Entry Details</h5>
               {renderDetail1(<><FontAwesomeIcon icon={faKey} style={{ color: '#9ca2a7', marginRight: '10px' }} />Entry ID:</>,`${506216 + parseInt(rowIndex)}`,true)}
               {renderDetail1(<><FontAwesomeIcon icon={faCalendarDays} style={{ marginRight: "10px" , fontSize: "15px" , color: '#9ca2a7'}} />Submitted:</>,'Submitted')}
@@ -136,7 +136,7 @@ function ViewPage() {
               {renderDetail1(<><FontAwesomeIcon icon={faLocationDot} style={{ marginRight: "10px" , fontSize: "15px" , color: '#9ca2a7'}} />User IP:</>, 'IP ADDRESS')}
             </div>
 
-            <div className="bg-light p-3 rounded shadow-sm border mt-4" style={{fontSize: "18px"}}>
+            <div className="p-3 rounded shadow-sm border mt-4" style={{fontSize: "18px"}}>
                 <h5 className="mb-2 border-bottom" style={{ height: '35px' }}>Actions</h5>
               <div className="row" style={{color: "#0566ac"}}>
                 <span className='mt-2'><FontAwesomeIcon icon={faPrint} style={{ marginRight: "10px" , fontSize: "15px" , color: '#9ca2a7'}} /> Print</span>
