@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/OPT-IN-TRAIL/static/css/main.07c21a48.css",
-    "main.js": "/OPT-IN-TRAIL/static/js/main.f821bcc1.js",
+    "main.js": "/OPT-IN-TRAIL/static/js/main.9b0c2606.js",
     "index.html": "/OPT-IN-TRAIL/index.html",
     "main.07c21a48.css.map": "/OPT-IN-TRAIL/static/css/main.07c21a48.css.map",
-    "main.f821bcc1.js.map": "/OPT-IN-TRAIL/static/js/main.f821bcc1.js.map"
+    "main.9b0c2606.js.map": "/OPT-IN-TRAIL/static/js/main.9b0c2606.js.map"
   },
   "entrypoints": [
     "static/css/main.07c21a48.css",
-    "static/js/main.f821bcc1.js"
+    "static/js/main.9b0c2606.js"
   ]
 }
