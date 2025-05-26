@@ -22,7 +22,7 @@ function App({ setRowData }) {
       .catch(err => {
         console.error(err);
         setLoading(false);
-      });
+      }); 
   }, []);
 
   const handleEdit = (rowIndex, columnName) => {

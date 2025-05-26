@@ -18,7 +18,7 @@ function ViewPage() {
     fetch(SHEET_API_URL)
       .then(res => res.json())
       .then(sheetData => {
-        const entry = sheetData[rowIndex];
+        const entry = sheetData[rowIndex]; 
         if (!entry) return navigate('/');
         setData(entry);
       })
