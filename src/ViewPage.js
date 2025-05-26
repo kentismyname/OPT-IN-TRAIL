@@ -27,7 +27,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 
 
-const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbz95PWGViXN6f9o73nu0zyq1lxhtZGNbrjE20kMy5uwdxo8hdFG93_NufRwxotOVgY5/exec';
+const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbxz6YYQ8QYbCj2S3mXY5E1RyhZxEUDvjAts7NVpYituz6VzRd9EYrGmCjUYCmBeTA/exec';
 
 function ViewPage() {
   const { rowIndex } = useParams();
