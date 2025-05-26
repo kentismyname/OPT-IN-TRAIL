@@ -1,31 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import jsPDF from 'jspdf';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import html2canvas from 'html2canvas';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // (Optional) Setup icon library properly
-import { faCamera, faEnvelope, faEyeSlash, faFileArrowDown, faLocationDot, faShieldHalved, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { faCopy } from '@fortawesome/free-solid-svg-icons';
-import { faMessage } from '@fortawesome/free-solid-svg-icons';
-import { faRectangleList } from '@fortawesome/free-solid-svg-icons';
-import { faNewspaper } from '@fortawesome/free-solid-svg-icons';
-import { faPaintbrush } from '@fortawesome/free-solid-svg-icons';
-import { faPlug } from '@fortawesome/free-solid-svg-icons';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { faWrench } from '@fortawesome/free-solid-svg-icons';
-import { faGear } from '@fortawesome/free-solid-svg-icons';
-import { faFileCode } from '@fortawesome/free-solid-svg-icons';
-import { faKey } from '@fortawesome/free-solid-svg-icons';
-import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
-import { faPrint } from '@fortawesome/free-solid-svg-icons';
-import { faFileExport } from '@fortawesome/free-solid-svg-icons';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
-
-
-
-
-
-
-
-
+import { faCamera, faEnvelope, faEyeSlash, faFileArrowDown, faLocationDot, faShieldHalved, faTrash, faCopy, faMessage, faRectangleList, faNewspaper, faPaintbrush, faPlug, faUser, faWrench, faGear, faFileCode, faKey, faCalendarDays, faPrint, faFileExport, faStar } from '@fortawesome/free-solid-svg-icons';
 
 const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbxz6YYQ8QYbCj2S3mXY5E1RyhZxEUDvjAts7NVpYituz6VzRd9EYrGmCjUYCmBeTA/exec';
 
@@ -33,6 +12,7 @@ function ViewPage() {
   const { rowIndex } = useParams();
   const [data, setData] = useState(null);
   const navigate = useNavigate();
+  const captureRef = useRef(null);
 
   useEffect(() => {
     fetch(SHEET_API_URL)
@@ -44,6 +24,46 @@ function ViewPage() {
       })
       .catch(console.error);
   }, [rowIndex, navigate]);
+
+  const takeScreenshot = () => {
+  if (captureRef.current && data) {
+    html2canvas(captureRef.current, { scale: 2 }).then(canvas => {
+      const imgData = canvas.toDataURL('image/png');
+
+      // Create PDF in landscape mode
+      const pdf = new jsPDF({
+        orientation: 'landscape',
+        unit: 'mm',
+        format: 'a4',
+      });
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+
+      const imgWidth = pdfWidth;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      const firstName = data['First Name'] || 'FirstName';
+      const lastName = data['Last Name'] || 'LastName';
+      const fileName = `${firstName}_${lastName}.pdf`;
+
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pdfHeight;
+
+      while (heightLeft > 0) {
+        position -= pdfHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pdfHeight;
+      }
+
+      pdf.save(fileName);
+    });
+  }
+};
 
   if (!data) {
     return (
@@ -74,8 +94,11 @@ function ViewPage() {
   return (
     <div className=" container-fluid py-4" style={{backgroundColor: "#f8f9fa"}} >
       <button className="btn btn-secondary mb-3" onClick={() => navigate('/')}>← Back</button>
-      <div className="row">
-        
+      <button className="btn btn-primary mb-3 ms-2" onClick={takeScreenshot}>📸 Take Screenshot</button>
+
+      
+      
+      <div className="row" ref={captureRef}>  
         <div className='col-md-1 bg-dark me-3'>
           <div className='row text-white' style={{fontSize: "18px"}}>
             <span className='mt-3'><FontAwesomeIcon icon={faCamera}style={{ color: '#9ca2a7' }}  /> Media</span>
