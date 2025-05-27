@@ -48,7 +48,7 @@ function ViewPage() {
 
       const firstName = data['First Name'] || 'FirstName';
       const lastName = data['Last Name'] || 'LastName';
-      const fileName = `${firstName}_${lastName}.pdf`;
+      const fileName = `${firstName} ${lastName}.pdf`;
 
       pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
       heightLeft -= pdfHeight;
@@ -74,22 +74,62 @@ function ViewPage() {
     );
   }
 
-  const renderDetail = (label, keyOrValue, isRawValue = false) => (
+  const renderDetail = (label, keyOrValue, isRawValue = false) => {
+  let value = isRawValue ? keyOrValue : data[keyOrValue];
+
+  // Check and format if it's an ISO date string
+  if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}T/.test(value)) {
+    const date = new Date(value);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    value = `${day}/${month}/${year}`;
+  }
+
+  return (
     <div className="py-2 col-12">
       <div className='row'>
         <div className="col-12" style={{ backgroundColor: '#eceff4', height: '45px', padding: '10px' }}>{label}</div>
-        <div className='mt-1' style={{height: '25px', padding: '5px 10px'}}><span>{isRawValue ? keyOrValue : data[keyOrValue]}</span></div>
+        <div className='mt-1' style={{ height: '25px', padding: '5px 10px' }}>
+          <span>{value}</span>
+        </div>
       </div>
     </div>
   );
-  const renderDetail1 = (label, keyOrValue, isRawValue = false) => (
-    <div className="py-1 col-12" style={{fontSize: "18px"}}>
+};
+
+  const renderDetail1 = (label, keyOrValue, isRawValue = false) => {
+  let value = isRawValue ? keyOrValue : data[keyOrValue];
+
+  // Format ISO date string to DD/MM/YYYY hh:mm AM/PM
+  if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}T/.test(value)) {
+    const date = new Date(value);
+
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+
+    let hours = date.getHours();
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+
+    hours = hours % 12 || 12; // convert 0 to 12 for AM
+
+    value = `${day}/${month}/${year} ${hours}:${minutes} ${ampm}`;
+  }
+
+  return (
+    <div className="py-1 col-12" style={{ fontSize: "18px" }}>
       <div className='row'>
-        <div className="col-5" >{label}</div>
-        <div className='col-7' style={{marginLeft: "-80px"}}><span>{isRawValue ? keyOrValue : data[keyOrValue]}</span></div>
+        <div className="col-5">{label}</div>
+        <div className='col-7' style={{ marginLeft: "-80px" }}>
+          <span>{value}</span>
+        </div>
       </div>
     </div>
   );
+};
+
 
   return (
     <div className=" container-fluid py-4" style={{backgroundColor: "#f8f9fa"}} >
