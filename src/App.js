@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 
-const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbzVzisg7_pE1UwBOzj7jxNLzAYN9Lzx48AHFqpmGqEMYTXJ3-wW1EklCyhjVZGq31Z2/exec';
+const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbxKRE2emJZ2euPQ__QPgF0wwwUFJe-3mC_C8nuk45C6NYbm-YlnumixZMfRl07jvBaQ/exec';
 
 function App({ setRowData }) {
   const [data, setData] = useState([]);
@@ -81,21 +81,23 @@ function App({ setRowData }) {
               </tr>
             </thead>
             <tbody>
-             {filteredData.map((row, rowIndex) => (
-                <tr key={rowIndex}>
+             {filteredData.map((row, i) => {
+              const originalIndex = data.findIndex(r => r === row);
+              return (
+                <tr key={originalIndex}>
                   <td>
-                    <Link className="btn btn-sm btn-outline-primary" to={`/view/${rowIndex}`}>
+                    <Link to={`/view/${originalIndex}`} className="btn btn-sm btn-outline-primary">
                       View
                     </Link>
                   </td>
                   {columns.map(col => (
-                    <td key={col} onClick={() => handleEdit(rowIndex, col)}>
-                      {editing.rowIndex === rowIndex && editing.columnName === col ? (
+                    <td key={col} onClick={() => handleEdit(originalIndex, col)}>
+                      {editing.rowIndex === originalIndex && editing.columnName === col ? (
                         <input
                           type="text"
                           className="form-control form-control-sm"
                           value={row[col]}
-                          onChange={(e) => handleChange(e, rowIndex, col)}
+                          onChange={(e) => handleChange(e, originalIndex, col)}
                           autoFocus
                         />
                       ) : (
@@ -104,7 +106,8 @@ function App({ setRowData }) {
                     </td>
                   ))}
                 </tr>
-              ))}
+              );
+            })}
             </tbody>
           </table>
         </div>
